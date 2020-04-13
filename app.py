@@ -10,4 +10,5 @@ app.config["DEBUG"] = True
 def receive_data():
     return jsonify(estimator.estimator(json.loads(request.form.get("data"))))
 
-app.run()
+if __name__ == "__main__":
+    app.run()
