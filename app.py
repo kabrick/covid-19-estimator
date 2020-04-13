@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import estimator
+from src import estimator
 import json
 
 app = Flask(__name__)
