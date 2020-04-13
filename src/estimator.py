@@ -31,20 +31,32 @@ def estimator(data):
   impact["hospitalBedsByRequestedTime"] = data.get("totalHospitalBeds") - impact["severeCasesByRequestedTime"]
   severeImpact["hospitalBedsByRequestedTime"] = data.get("totalHospitalBeds") - severeImpact["severeCasesByRequestedTime"]
 
+  # estimate number of severe cases that will require ICU care
+  impact["casesForICUByRequestedTime"] = int(0.05 * impact["infectionsByRequestedTime"])
+  severeImpact["casesForICUByRequestedTime"] = int(0.05 * severeImpact["infectionsByRequestedTime"])
+
+  # estimate number of severe positive cases that will require ventilators
+  impact["casesForVentilatorsByRequestedTime"] = int(0.02 * impact["infectionsByRequestedTime"])
+  severeImpact["casesForVentilatorsByRequestedTime"] = int(0.02 * severeImpact["infectionsByRequestedTime"])
+
+  # estimate how much money the economy will lose daily
+  impact["dollarsInFlight"] = int((impact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) / convertedDays)
+  severeImpact["dollarsInFlight"] = int((severeImpact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) / convertedDays) * convertedDays
+
   return estimate
 
 data = {
         "region": {
           "name": "Africa",
           "avgAge": 19.7,
-          "avgDailyIncomeInUSD": 5,
-          "avgDailyIncomePopulation": 0.71
+          "avgDailyIncomeInUSD": 4,
+          "avgDailyIncomePopulation": 0.73
         },
         "periodType": "days",
-        "timeToElapse": 58,
-        "reportedCases": 674,
-        "population": 66622705,
-        "totalHospitalBeds": 1380614
+        "timeToElapse": 38,
+        "reportedCases": 2747,
+        "population": 92931687,
+        "totalHospitalBeds": 678874
 }
 
 print(estimator(data))
