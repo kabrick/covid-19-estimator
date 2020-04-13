@@ -13,14 +13,23 @@ def estimator(data):
   estimate = {"data": data,
               "impact": impact,
               "severeImpact": severeImpact}
+  convertedDays = convertToDays(data.get("timeToElapse"), data.get("periodType"))
 
   # calculate the currently infected people
   impact["currentlyInfected"] = data.get("reportedCases") * 10
   severeImpact["currentlyInfected"] = data.get("reportedCases") * 50
 
   # calculate the estimated number of people infected in the future
-  impact["infectionsByRequestedTime"] = impact["currentlyInfected"] * (2 ** (convertToDays(data.get("timeToElapse"), data.get("periodType")) // 3))
-  severeImpact["infectionsByRequestedTime"] = severeImpact["currentlyInfected"] * (2 ** (convertToDays(data.get("timeToElapse"), data.get("periodType")) // 3))
+  impact["infectionsByRequestedTime"] = impact["currentlyInfected"] * (2 ** (convertedDays // 3))
+  severeImpact["infectionsByRequestedTime"] = severeImpact["currentlyInfected"] * (2 ** (convertedDays // 3))
+
+  # estimate number of severe cases that will require hospitalization
+  impact["severeCasesByRequestedTime"] = int(0.15 * impact["infectionsByRequestedTime"])
+  severeImpact["severeCasesByRequestedTime"] = int(0.15 * severeImpact["infectionsByRequestedTime"])
+
+  # calculate the number of hospital beds available
+  impact["hospitalBedsByRequestedTime"] = data.get("totalHospitalBeds") - impact["severeCasesByRequestedTime"]
+  severeImpact["hospitalBedsByRequestedTime"] = data.get("totalHospitalBeds") - severeImpact["severeCasesByRequestedTime"]
 
   return estimate
 
