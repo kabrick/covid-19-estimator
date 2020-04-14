@@ -48,6 +48,7 @@ def read_logged_data():
 def receive_data():
     file1 = open("logger.txt", "a")
     file1.write(str(request.form) +" \n")
+    file1.write(str(request.content_type) +" \n")
     file1.close()
     if request.form.get("data") == None:
         return jsonify(estimator.estimator(data))
