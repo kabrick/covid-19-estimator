@@ -40,8 +40,8 @@ def estimator(data):
   severeImpact["casesForVentilatorsByRequestedTime"] = int(0.02 * severeImpact["infectionsByRequestedTime"])
 
   # estimate how much money the economy will lose daily
-  impact["dollarsInFlight"] = int((impact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) * convertedDays)
-  severeImpact["dollarsInFlight"] = int((severeImpact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) * convertedDays)
+  impact["dollarsInFlight"] = int((impact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) / convertedDays)
+  severeImpact["dollarsInFlight"] = int((severeImpact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) / convertedDays)
 
   return estimate
 
