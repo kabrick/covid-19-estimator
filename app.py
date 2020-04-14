@@ -51,5 +51,6 @@ def receive_data_xml():
     else:
         return Response(dicttoxml(estimator.estimator(json.loads(request.form.get("data")))), mimetype='text/xml')
 
+
 if __name__ == "__main__":
     app.run()
