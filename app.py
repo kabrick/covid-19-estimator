@@ -8,6 +8,20 @@ import time
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
+data = {
+        "region": {
+          "name": "Africa",
+          "avgAge": 19.7,
+          "avgDailyIncomeInUSD": 4,
+          "avgDailyIncomePopulation": 0.73
+        },
+        "periodType": "days",
+        "timeToElapse": 38,
+        "reportedCases": 2747,
+        "population": 92931687,
+        "totalHospitalBeds": 678874
+}
+
 @app.before_request
 def start_timer():
     g.start = time.time()
@@ -32,7 +46,10 @@ def read_logged_data():
 
 @app.route('/api/v1/on-covid-19', methods=['POST'])
 def receive_data():
-    return jsonify(estimator.estimator(json.loads(request.form.get("data"))))
+    if request.form.get("data") == None:
+        return jsonify(estimator.estimator(data))
+    else:
+        return jsonify(estimator.estimator(json.loads(request.form.get("data"))))
 
 @app.route('/api/v1/on-covid-19/json', methods=['POST'])
 def receive_data_json():
