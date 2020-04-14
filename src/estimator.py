@@ -28,8 +28,8 @@ def estimator(data):
   severeImpact["severeCasesByRequestedTime"] = int(0.15 * severeImpact["infectionsByRequestedTime"])
 
   # calculate the number of hospital beds available
-  impact["hospitalBedsByRequestedTime"] = data.get("totalHospitalBeds") - impact["severeCasesByRequestedTime"]
-  severeImpact["hospitalBedsByRequestedTime"] = data.get("totalHospitalBeds") - severeImpact["severeCasesByRequestedTime"]
+  impact["hospitalBedsByRequestedTime"] = int(0.35 * data.get("totalHospitalBeds") - impact["severeCasesByRequestedTime"])
+  severeImpact["hospitalBedsByRequestedTime"] = int(0.35 * data.get("totalHospitalBeds") - severeImpact["severeCasesByRequestedTime"])
 
   # estimate number of severe cases that will require ICU care
   impact["casesForICUByRequestedTime"] = int(0.05 * impact["infectionsByRequestedTime"])
@@ -40,8 +40,8 @@ def estimator(data):
   severeImpact["casesForVentilatorsByRequestedTime"] = int(0.02 * severeImpact["infectionsByRequestedTime"])
 
   # estimate how much money the economy will lose daily
-  impact["dollarsInFlight"] = int((impact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) / convertedDays)
-  severeImpact["dollarsInFlight"] = int((severeImpact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) / convertedDays)
+  impact["dollarsInFlight"] = int((impact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) * convertedDays)
+  severeImpact["dollarsInFlight"] = int((severeImpact["infectionsByRequestedTime"] * data.get("region").get("avgDailyIncomePopulation") * data.get("region").get("avgDailyIncomeInUSD")) * convertedDays)
 
   return estimate
 
@@ -59,4 +59,4 @@ data = {
         "totalHospitalBeds": 678874
 }
 
-#print(estimator(data))
+print(estimator(data))
