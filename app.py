@@ -47,9 +47,9 @@ def receive_data_json():
 @app.route('/api/v1/on-covid-19/xml', methods=['POST'])
 def receive_data_xml():
     if request.form.get("data") == None:
-        return Response(dicttoxml(estimator.estimator(request.json), root=False), mimetype='text/xml')
+        return Response(dicttoxml(estimator.estimator(request.json), custom_root="result"), mimetype='text/xml')
     else:
-        return Response(dicttoxml(estimator.estimator(json.loads(request.form.get("data"))), root=False), mimetype='text/xml')
+        return Response(dicttoxml(estimator.estimator(json.loads(request.form.get("data"))), custom_root="result"), mimetype='text/xml')
 
 if __name__ == "__main__":
     app.run()
