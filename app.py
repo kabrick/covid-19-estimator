@@ -10,27 +10,25 @@ app.config["DEBUG"] = True
 
 @app.before_request
 def start_timer():
-    g.start = time.time() * 1000
+    g.start = time.time()
 
 @app.after_request
 def log_request(response):
-    f = open('logger.txt', 'a+')
-    req_method = request.method
-    req_path = request.path
-    res_time = round(time.time() * 1000 - g.start)
-    res_status_code = response.status_code
+    now = time.time()
+    duration = round(now - g.start, 2)
 
-    f.write("{} \t\t {} \t\t {} \t\t {} ms \n".format(req_method, req_path, res_status_code, res_time))
-    f.close()
+    file1 = open("logger.txt", "a")
+    file1.write(request.method + "  " + request.path + "  " + str(response.status_code) + "  " + str(duration) +"s \n")
+    file1.close()
 
     return response
 
 @app.route('/api/v1/on-covid-19/logs', methods=['GET'])
 def read_logged_data():
-    f = open('logger.txt', 'r')
-    contents = f.read()
-    f.close()
-    return contents
+    file1 = open("logger.txt", "r")
+    return_text = file1.readlines()
+    file1.close()
+    return Response(return_text, mimetype='text/plain')
 
 @app.route('/api/v1/on-covid-19', methods=['POST'])
 def receive_data():
