@@ -8,20 +8,6 @@ import time
 app = Flask(__name__)
 app.config["DEBUG"] = True
 
-data = {
-        "region": {
-          "name": "Africa",
-          "avgAge": 19.7,
-          "avgDailyIncomeInUSD": 4,
-          "avgDailyIncomePopulation": 0.73
-        },
-        "periodType": "days",
-        "timeToElapse": 38,
-        "reportedCases": 2747,
-        "population": 92931687,
-        "totalHospitalBeds": 678874
-}
-
 @app.before_request
 def start_timer():
     g.start = time.time()
@@ -51,7 +37,7 @@ def receive_data():
     file1.write(str(request.content_type) +" \n")
     file1.close()
     if request.form.get("data") == None:
-        return jsonify(estimator.estimator(data))
+        return jsonify(estimator.estimator(request.json))
     else:
         return jsonify(estimator.estimator(json.loads(request.form.get("data"))))
 

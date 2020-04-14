@@ -1,3 +1,0 @@
-POST  /api/v1/on-covid-19  200  0.0s 
-ImmutableMultiDict([('data', '{\n        "region": {\n          "name": "Africa",\n          "avgAge": 19.7,\n          "avgDailyIncomeInUSD": 4,\n          "avgDailyIncomePopulation": 0.73\n        },\n        "periodType": "days",\n        "timeToElapse": 38,\n        "reportedCases": 2747,\n        "population": 92931687,\n        "totalHospitalBeds": 678874\n}')]) 
-POST  /api/v1/on-covid-19  200  0.0s 
